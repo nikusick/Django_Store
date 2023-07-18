@@ -41,8 +41,7 @@ class SignUpView(APIView):
             if user is not None:
                 login(request, user)
             return Response(status=status.HTTP_201_CREATED)
-        except Exception as e:
-            print(e)
+        except Exception:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

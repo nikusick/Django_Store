@@ -13,10 +13,6 @@ class Avatar(models.Model):
         verbose_name = "Аватар"
         verbose_name_plural = "Аватары"
 
-    @classmethod
-    def get_default_img(cls):
-        return cls._meta.get_field('src').get_default()
-
 
 class Profile(models.Model):
     user = models.OneToOneField(
