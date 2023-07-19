@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework import serializers
-from .models import Product, Tag, Specification, Review, Image
+from .models import Product, Tag, Specification, Review, Image, Category
 from app_users.serializers import ProfileSerializer
 
 
@@ -28,6 +28,13 @@ class SpecificationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        depth = 2
+        fields = '__all__'
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.CharField(source='author.fullName')
     email = serializers.EmailField(source='author.user.email')
@@ -38,7 +45,6 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('author')
-        validated_data['date'] = datetime.datetime.now(tz=datetime.timezone.utc)
         return Review.objects.create(**validated_data)
 
 

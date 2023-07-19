@@ -9,11 +9,18 @@ class Image(models.Model):
         upload_to="static/products/",
         verbose_name="Ссылка",
     )
-    alt = models.CharField(max_length=128, default="Продукт", verbose_name="Описание")
+    alt = models.CharField(max_length=128, default="Фото", verbose_name="Описание")
 
     class Meta:
         verbose_name = "Картинка"
         verbose_name_plural = "Картинки"
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=128)
+    image = models.ForeignKey(Image, null=True, on_delete=models.CASCADE)
+    subcategories = models.ManyToManyField('self', null=True,
+                                           related_name='subcategories')
 
 
 class Tag(models.Model):

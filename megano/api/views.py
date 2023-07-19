@@ -39,29 +39,6 @@ def banners(request):
     ]
     return JsonResponse(data, safe=False)
 
-def categories(request):
-    data = [
-         {
-             "id": 123,
-             "title": "video card",
-             "image": {
-                "src": "https://proprikol.ru/wp-content/uploads/2020/12/kartinki-ryabchiki-14.jpg",
-                 "alt": "Image alt string"
-             },
-             "subcategories": [
-                 {
-                     "id": 123,
-                     "title": "video card",
-                     "image": {
-                            "src": "https://proprikol.ru/wp-content/uploads/2020/12/kartinki-ryabchiki-14.jpg",
-                            "alt": "Image alt string"
-                     }
-                 }
-             ]
-         }
-     ]
-    return JsonResponse(data, safe=False)
-
 
 def catalog(request):
     data = {
