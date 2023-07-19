@@ -1,5 +1,8 @@
+import datetime
+
 from rest_framework import serializers
 from .models import Product, Tag, Specification, Review, Image
+from app_users.serializers import ProfileSerializer
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -32,6 +35,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['text', 'rate', 'date', 'author', 'email', 'product']
+
+    def create(self, validated_data):
+        validated_data.pop('author')
+        validated_data['date'] = datetime.datetime.now(tz=datetime.timezone.utc)
+        return Review.objects.create(**validated_data)
 
 
 class ProductSerializer(serializers.ModelSerializer):
