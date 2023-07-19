@@ -7,16 +7,18 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Product, Category
+from .models import Product, Category, Tag
 from .serializers import ProductSerializer, ReviewSerializer, TagSerializer, CategorySerializer
 from app_users.models import Profile
 
 
-class TagsListAPIView(APIView):
+class TagsAPIView(APIView):
 
     def get(self, request):
-        tags = TagSerializer(many=True)
-        print(tags)
+        category = request.GET.get('category')
+        tags = Category.objects.get(id=category).tags
+        serializer = TagSerializer(tags, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 class ProductDetailAPIView(APIView):
@@ -43,6 +45,6 @@ class ProductReview(APIView):
 class CategoryView(APIView):
 
     def get(self, request):
-        categories = Category.objects.all()
+        categories = Category.objects.filter(subcategories__isnull=False)
         serializer = CategorySerializer(categories, many=True)
         return JsonResponse(serializer.data, safe=False)
