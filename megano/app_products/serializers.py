@@ -5,26 +5,9 @@ from .models import Product, Tag, Specification, Review, Image, Category
 from app_users.serializers import ProfileSerializer
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    src = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Image
-        fields = ["src", "alt"]
-
-    def get_src(self, obj):
-        return obj.src.url
-
-
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
-
-
-class SpecificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Specification
         fields = '__all__'
 
 
@@ -49,13 +32,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
-    tags = TagSerializer(many=True)
-    reviews = ReviewSerializer(many=True)
-    specifications = SpecificationSerializer(many=True)
-
     class Meta:
         model = Product
+        depth = 1
         fields = [
             "id", "category", "price", "count", "date", "title",
             "description", "fullDescription", "freeDelivery",
