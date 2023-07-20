@@ -17,11 +17,7 @@ from app_users.models import Profile
 class TagsAPIView(APIView):
 
     def get(self, request):
-        category = request.GET.get('category')
-        if category:
-            tags = Category.objects.get(id=category).tags
-        else:
-            tags = Tag.objects.all()
+        tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
         return JsonResponse(serializer.data, safe=False)
 

@@ -25,7 +25,6 @@ class Category(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name="Название тэга")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tags')
 
 
 class Specification(models.Model):
