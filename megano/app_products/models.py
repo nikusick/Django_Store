@@ -19,8 +19,8 @@ class Image(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=128)
     image = models.ForeignKey(Image, null=True, on_delete=models.CASCADE)
-    subcategories = models.ManyToManyField('self', null=True,
-                                           related_name='subcategories')
+    parent_category = models.ForeignKey('self', null=True, blank=True,
+                                        related_name='subcategories', on_delete=models.CASCADE)
 
 
 class Tag(models.Model):

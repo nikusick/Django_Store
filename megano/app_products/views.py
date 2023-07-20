@@ -46,8 +46,9 @@ class ProductReview(APIView):
 class CategoryView(APIView):
 
     def get(self, request):
-        categories = Category.objects.filter(subcategories__isnull=False)
+        categories = Category.objects.filter(parent_category__isnull=True)
         serializer = CategorySerializer(categories, many=True)
+        print(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
 

@@ -15,7 +15,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         depth = 2
-        fields = '__all__'
+        fields = ['id', 'title', 'image', 'subcategories']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
