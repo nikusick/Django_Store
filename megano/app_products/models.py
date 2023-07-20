@@ -57,3 +57,11 @@ class Review(models.Model):
     rate = models.PositiveIntegerField(verbose_name="Оценка")
     date = models.DateTimeField(verbose_name="Дата")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+
+
+class SaleItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="sales")
+    salePrice = models.FloatField(verbose_name="Цена со скидкой")
+    dateFrom = models.DateField(verbose_name="Начало акции")
+    dateTo = models.DateField(verbose_name="Конец акции")
+

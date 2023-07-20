@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework import serializers
-from .models import Product, Tag, Specification, Review, Image, Category
+from .models import Product, Tag, Specification, Review, Image, Category, SaleItem
 from app_users.serializers import ProfileSerializer
 
 
@@ -52,4 +52,28 @@ class ProductShortSerializer(serializers.ModelSerializer):
             "id", "category", "price", "count", "date", "title",
             "description", "freeDelivery",
             "images", "tags", "reviews", "rating"
+        ]
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    src = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Image
+        fields = ["src", "alt"]
+
+    def get_src(self, obj):
+        return obj.src.url
+
+
+class SaleItemSerializer(serializers.ModelSerializer):
+    price = serializers.FloatField(source='product.price')
+    title = serializers.CharField(source='product.title')
+    images = ImageSerializer(source='product.images', many=True)
+
+    class Meta:
+        model = SaleItem
+        depth = 1
+        fields = [
+            'id', 'price', 'salePrice', 'dateFrom', 'dateTo', 'title', 'images'
         ]

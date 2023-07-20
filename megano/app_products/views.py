@@ -9,8 +9,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Product, Category, Tag
-from .serializers import ProductSerializer, ReviewSerializer, TagSerializer, CategorySerializer, ProductShortSerializer
+from .models import Product, Category, Tag, SaleItem
+from .serializers import ProductSerializer, ReviewSerializer, TagSerializer, CategorySerializer, ProductShortSerializer, \
+    SaleItemSerializer
 from app_users.models import Profile
 
 
@@ -48,7 +49,6 @@ class CategoryView(APIView):
     def get(self, request):
         categories = Category.objects.filter(parent_category__isnull=True)
         serializer = CategorySerializer(categories, many=True)
-        print(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
 
@@ -95,3 +95,18 @@ class LimitedProductsView(APIView):
         products = Product.objects.filter(limited=True)[:16]
         serializer = ProductShortSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SalesView(APIView):
+    def get(self, request):
+        saleItems = SaleItem.objects.filter(
+            dateFrom__lte=datetime.datetime.now().date(),
+            dateTo__gte=datetime.datetime.now().date()
+        )
+        serializer = SaleItemSerializer(saleItems, many=True)
+        data = {
+            "items": serializer.data,
+            "currentPage": int(request.GET.get('currentPage')),
+            "lastPage": 10
+        }
+        return Response(data, status=status.HTTP_200_OK)
