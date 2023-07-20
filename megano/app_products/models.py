@@ -34,7 +34,8 @@ class Specification(models.Model):
 
 
 class Product(models.Model):
-    category = models.PositiveIntegerField(verbose_name="Категория")
+    category = models.ForeignKey(Category, verbose_name="Категория",
+                                 on_delete=models.CASCADE, related_name='products')
     price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Цена")
     count = models.PositiveIntegerField(verbose_name="Количество")
     date = models.DateTimeField("Дата")

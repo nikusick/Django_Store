@@ -1,6 +1,8 @@
 import datetime
 import json
+from collections import OrderedDict
 
+from django.db.models import Count, QuerySet
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
@@ -8,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Product, Category, Tag
-from .serializers import ProductSerializer, ReviewSerializer, TagSerializer, CategorySerializer
+from .serializers import ProductSerializer, ReviewSerializer, TagSerializer, CategorySerializer, ProductShortSerializer
 from app_users.models import Profile
 
 
@@ -16,7 +18,10 @@ class TagsAPIView(APIView):
 
     def get(self, request):
         category = request.GET.get('category')
-        tags = Category.objects.get(id=category).tags
+        if category:
+            tags = Category.objects.get(id=category).tags
+        else:
+            tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -48,3 +53,41 @@ class CategoryView(APIView):
         categories = Category.objects.filter(subcategories__isnull=False)
         serializer = CategorySerializer(categories, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+class CatalogView(APIView):
+
+    def get(self, request):
+        r = request.GET
+        name = r.get('filter[name]')
+        minPrice = int(r.get('filter[minPrice]'))
+        maxPrice = int(r.get('filter[maxPrice]'))
+        freeDelivery = json.loads(r.get('filter[freeDelivery]').lower())
+        available = json.loads(r.get('filter[available]').lower())
+        currentPage = int(r.get('currentPage'))
+        category = int(r.get('category', -1))
+        sort = f'{"-" if r.get("sortType") == "dec" else ""}{r.get("sort")}'
+        tags = Tag.objects.filter(id__in=map(int, dict(r).get('tags[]', [])))
+        limit = int(r.get('limit'))
+
+        if category != -1:
+            products = Product.objects.filter(category=category)
+        else:
+            products = Product.objects.all()
+        if len(tags) != 0:
+            products = products.filter(
+                tags__in=tags,
+            )
+        products = products.filter(
+            title__icontains=name,
+            price__range=[minPrice, maxPrice],
+            freeDelivery__gte=1 if freeDelivery else 0,
+            count__gte=1 if available else 0,
+        ).order_by(sort).distinct()[:limit]
+        serializer = ProductShortSerializer(products, many=True)
+        data = {
+            "items": serializer.data,
+            "currentPage": currentPage,
+            "lastPage": 10
+        }
+        return Response(data, status=status.HTTP_200_OK)

@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     # path('banners', views.banners),
     path('categories', views.CategoryView.as_view()),
-    # path('catalog', views.catalog),
+    path('catalog', views.CatalogView.as_view()),
     # path('products/popular', views.productsPopular),
     # path('products/limited', views.productsLimited),
     # path('sales', views.sales),

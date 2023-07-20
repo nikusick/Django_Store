@@ -40,3 +40,16 @@ class ProductSerializer(serializers.ModelSerializer):
             "description", "fullDescription", "freeDelivery",
             "images", "tags", "reviews", "specifications", "rating"
         ]
+
+
+class ProductShortSerializer(serializers.ModelSerializer):
+    reviews = serializers.IntegerField(source='reviews.count')
+
+    class Meta:
+        model = Product
+        depth = 1
+        fields = [
+            "id", "category", "price", "count", "date", "title",
+            "description", "freeDelivery",
+            "images", "tags", "reviews", "rating"
+        ]
