@@ -88,3 +88,10 @@ class CatalogView(APIView):
             "lastPage": 10
         }
         return Response(data, status=status.HTTP_200_OK)
+
+
+class LimitedProductsView(APIView):
+    def get(self, request):
+        products = Product.objects.filter(limited=True)[:16]
+        serializer = ProductShortSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

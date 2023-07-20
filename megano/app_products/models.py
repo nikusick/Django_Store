@@ -42,6 +42,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     fullDescription = models.TextField(blank=True, null=True, verbose_name="Полное описание")
     freeDelivery = models.BooleanField(default=False, verbose_name="Бесплатная доставка")
+    limited = models.BooleanField(default=False, verbose_name="Ограниченный тираж")
     images = models.ManyToManyField(Image, related_name="products")
     tags = models.ManyToManyField(Tag, related_name="products")
     specifications = models.ManyToManyField(Specification, related_name="products")
