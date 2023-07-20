@@ -83,8 +83,8 @@ class CatalogView(APIView):
             price__range=[minPrice, maxPrice],
             freeDelivery__gte=1 if freeDelivery else 0,
             count__gte=1 if available else 0,
-        ).order_by(sort).distinct()[:limit]
-        serializer = ProductShortSerializer(products, many=True)
+        ).order_by(sort)[:limit]
+        serializer = ProductShortSerializer(list(OrderedDict.fromkeys(products)), many=True)
         data = {
             "items": serializer.data,
             "currentPage": currentPage,
