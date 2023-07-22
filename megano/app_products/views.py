@@ -67,10 +67,8 @@ class CatalogView(APIView):
         tags = Tag.objects.filter(id__in=map(int, dict(r).get('tags[]', [])))
         limit = int(r.get('limit'))
 
-        if category != -1:
-            products = Product.objects.filter(category=category)
-        else:
-            products = Product.objects.all()
+        products = Product.get_category_items(category_id=category)
+
         if len(tags) != 0:
             products = products.filter(
                 tags__in=tags,
@@ -93,6 +91,14 @@ class CatalogView(APIView):
 class LimitedProductsView(APIView):
     def get(self, request):
         products = Product.objects.filter(limited=True)[:16]
+        serializer = ProductShortSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PopularProductsView(APIView):
+
+    def get(self, request):
+        products = Product.objects.order_by('orders_count')[:8]
         serializer = ProductShortSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

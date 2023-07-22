@@ -37,6 +37,7 @@ class Product(models.Model):
                                  on_delete=models.CASCADE, related_name='products')
     price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Цена")
     count = models.PositiveIntegerField(verbose_name="Количество")
+    orders_count = models.PositiveIntegerField(default=0, verbose_name="Количество заказов")
     date = models.DateTimeField("Дата")
     title = models.CharField(max_length=128, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
@@ -47,6 +48,13 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tag, related_name="products")
     specifications = models.ManyToManyField(Specification, related_name="products")
     rating = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Рейтинг")
+
+    @classmethod
+    def get_category_items(cls, category_id: int):
+        if category_id != -1:
+            return Product.objects.filter(category=category_id)
+        else:
+            return Product.objects.all()
 
 
 class Review(models.Model):
@@ -64,4 +72,3 @@ class SaleItem(models.Model):
     salePrice = models.FloatField(verbose_name="Цена со скидкой")
     dateFrom = models.DateField(verbose_name="Начало акции")
     dateTo = models.DateField(verbose_name="Конец акции")
-
