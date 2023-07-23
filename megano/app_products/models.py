@@ -63,7 +63,7 @@ class Review(models.Model):
     )
     text = models.TextField(verbose_name="Отзыв")
     rate = models.PositiveIntegerField(verbose_name="Оценка")
-    date = models.DateTimeField(verbose_name="Дата")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
 
 

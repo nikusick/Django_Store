@@ -38,8 +38,7 @@ class ProductReview(APIView):
         serializer = ReviewSerializer(data=data, partial=True)
         if serializer.is_valid():
             profile = Profile.objects.get(user=request.user)
-            serializer.save(author_id=profile.id, product_id=id,
-                            date=datetime.datetime.now(tz=datetime.timezone.utc))
+            serializer.save(author_id=profile.id, product_id=id)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
