@@ -97,7 +97,7 @@ class LimitedProductsView(APIView):
 class PopularProductsView(APIView):
 
     def get(self, request):
-        products = Product.objects.order_by('orders_count')[:8]
+        products = Product.objects.order_by('rating')[:8]
         serializer = ProductShortSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
