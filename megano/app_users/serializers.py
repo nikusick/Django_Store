@@ -22,3 +22,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["fullName", "email", "phone", "avatar"]
+
+    def update(self, instance, validated_data):
+        instance.fullName = validated_data.get('fullName')
+        user = User.objects.get(id=instance.user.id)
+        user.email = validated_data.get('user').get('email')
+        user.save()
+        instance.phone = validated_data.get('phone')
+        instance.save()
+        return instance
