@@ -37,7 +37,6 @@ class Product(models.Model):
                                  on_delete=models.CASCADE, related_name='products')
     price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Цена")
     count = models.PositiveIntegerField(verbose_name="Количество")
-    orders_count = models.PositiveIntegerField(default=0, verbose_name="Количество заказов")
     date = models.DateTimeField("Дата")
     title = models.CharField(max_length=128, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
