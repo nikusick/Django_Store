@@ -64,8 +64,8 @@ class OrdersView(APIView):
 
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
-        products = Order.objects.get(profile=profile)[0].products
-        serializer = OrderProductSerializer(products, many=True)
+        orders = Order.objects.filter(profile=profile)
+        serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -98,7 +98,5 @@ class OrderDetailView(APIView):
             serializer.save()
             cart = Cart(request)
             cart.clear()
-            print(cart.cart)
-            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
