@@ -8,7 +8,7 @@ from app_products.models import Product
 from app_products.serializers import ProductShortSerializer
 from .cart import Cart
 from .models import OrderProduct, Order
-from .serializers import OrderProductSerializer, OrderSerializer
+from .serializers import OrderProductSerializer, OrderSerializer, PaymentSerializer
 from app_users.models import Profile
 
 
@@ -100,3 +100,17 @@ class OrderDetailView(APIView):
             cart.clear()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PaymentView(APIView):
+
+    def get(self, request):
+        print("hello")
+
+    def post(self, request, id):
+        order = Order.objects.get(id=id)
+        serializer = PaymentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(order=order)
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)

@@ -35,3 +35,13 @@ class OrderProduct(models.Model):
 
     def get_cost(self):
         return self.price * self.count
+
+
+class Payment(models.Model):
+    number = models.CharField(max_length=16, verbose_name="Номер карты")
+    name = models.CharField(max_length=128, verbose_name="Имя")
+    month = models.CharField(max_length=2, verbose_name="Месяц")
+    year = models.CharField(max_length=4, verbose_name="Год")
+    code = models.CharField(max_length=3, verbose_name="Код")
+    order = models.OneToOneField(Order, on_delete=models.CASCADE,
+                                 default=None, related_name="payment")

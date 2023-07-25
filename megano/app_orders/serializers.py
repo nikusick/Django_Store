@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import OrderProduct, Order
+from .models import OrderProduct, Order, Payment
 
 from app_products.serializers import ProductShortSerializer
 
@@ -52,3 +52,10 @@ class OrderSerializer(serializers.ModelSerializer):
         instance.address = validated_data.get('address')
         instance.save()
         return instance
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Payment
+        fields = '__all__'
