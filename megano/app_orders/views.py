@@ -106,9 +106,6 @@ class OrderDetailView(APIView):
 
 class PaymentView(APIView):
 
-    def get(self, request):
-        print("hello")
-
     def post(self, request, id):
         order = Order.objects.get(id=id)
         serializer = PaymentSerializer(data=request.data)
@@ -117,4 +114,4 @@ class PaymentView(APIView):
             order.status = "готов к получению"
             order.save()
             return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
