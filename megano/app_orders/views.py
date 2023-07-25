@@ -100,7 +100,7 @@ class OrderDetailView(APIView):
             order.save()
             cart = Cart(request)
             cart.clear()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({'orderId': order.id}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
