@@ -96,6 +96,8 @@ class OrderDetailView(APIView):
         serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            order.status = "ожидание оплаты"
+            order.save()
             cart = Cart(request)
             cart.clear()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -112,5 +114,7 @@ class PaymentView(APIView):
         serializer = PaymentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(order=order)
+            order.status = "готов к получению"
+            order.save()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)

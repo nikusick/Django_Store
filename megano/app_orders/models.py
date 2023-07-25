@@ -8,12 +8,21 @@ class Order(models.Model):
                                 related_name="orders")
     createdAt = models.DateTimeField(auto_now_add=True,
                                      verbose_name="Время создания")
-    deliveryType = models.CharField(max_length=50, default="", verbose_name="Доставка")
-    paymentType = models.CharField(max_length=50, default="", verbose_name="Способ оплаты")
+    deliveryType = models.CharField(max_length=50, verbose_name="Доставка")
+    paymentType = models.CharField(max_length=50, verbose_name="Способ оплаты")
     totalCost = models.FloatField(default=0, verbose_name="Стоимость заказа")
-    status = models.CharField(max_length=50, default="", blank=True, verbose_name="Статус заказа")
-    address = models.CharField(max_length=250, default="", verbose_name="Адрес")
-    city = models.CharField(max_length=100, default="", verbose_name="Город")
+    address = models.CharField(max_length=250, verbose_name="Адрес")
+    city = models.CharField(max_length=100, verbose_name="Город")
+
+    STATUS = {
+        ("оформление", "оформление"),
+        ("ожидание оплаты", "ожидание оплаты"),
+        ("готов к получению", "готов к получению"),
+        ("завершен", "завершен"),
+    }
+    status = models.CharField(max_length=50, choices=STATUS,
+                              default="оформление", blank=True,
+                              verbose_name="Статус заказа")
 
     class Meta:
         ordering = ('-createdAt',)
