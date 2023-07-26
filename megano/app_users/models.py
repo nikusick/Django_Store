@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 class Avatar(models.Model):
@@ -22,9 +23,6 @@ class Profile(models.Model):
     phone = models.PositiveIntegerField(
         blank=True, null=True, unique=True, verbose_name="Номер телефона"
     )
-    balance = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0, verbose_name="Баланс"
-    )
     avatar = models.ForeignKey(
         Avatar,
         null=True,
@@ -32,3 +30,7 @@ class Profile(models.Model):
         related_name="profile",
         verbose_name="Аватар",
     )
+
+    class Meta:
+        verbose_name = "Профиль"
+        verbose_name_plural = "Профили"
