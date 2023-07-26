@@ -5,7 +5,7 @@ from app_users.models import Profile
 
 class Order(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
-                                related_name="orders")
+                                related_name="orders", verbose_name="Заказчик")
     createdAt = models.DateTimeField(auto_now_add=True,
                                      verbose_name="Время создания")
     deliveryType = models.CharField(max_length=50, verbose_name="Доставка")
@@ -36,14 +36,19 @@ class Order(models.Model):
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product,
                                 related_name='order_items',
-                                on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    count = models.PositiveIntegerField(default=1)
+                                on_delete=models.CASCADE, verbose_name="товар")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="цена")
+    count = models.PositiveIntegerField(default=1, verbose_name="количество")
     order = models.ForeignKey(Order, default=None, on_delete=models.CASCADE,
-                              related_name="products")
+                              related_name="products", verbose_name="заказ")
 
     def get_cost(self):
         return self.price * self.count
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
 
 
 class Payment(models.Model):
@@ -54,3 +59,7 @@ class Payment(models.Model):
     code = models.CharField(max_length=3, verbose_name="Код")
     order = models.OneToOneField(Order, on_delete=models.CASCADE,
                                  default=None, related_name="payment")
+
+    class Meta:
+        verbose_name = 'Оплата'
+        verbose_name_plural = 'Оплата'

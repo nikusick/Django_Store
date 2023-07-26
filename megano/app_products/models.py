@@ -15,6 +15,9 @@ class Image(models.Model):
         verbose_name = "Картинка"
         verbose_name_plural = "Картинки"
 
+    def __str__(self):
+        return str(self.src)
+
 
 class Category(models.Model):
     title = models.CharField(max_length=128)
@@ -28,6 +31,8 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
     def __str__(self):
+        if self.parent_category is not None:
+            return f'{self.parent_category} -> {self.title}'
         return self.title
 
 
@@ -65,9 +70,9 @@ class Product(models.Model):
     fullDescription = models.TextField(blank=True, null=True, verbose_name="Полное описание")
     freeDelivery = models.BooleanField(default=False, verbose_name="Бесплатная доставка")
     limited = models.BooleanField(default=False, verbose_name="Ограниченный тираж")
-    images = models.ManyToManyField(Image, related_name="products")
-    tags = models.ManyToManyField(Tag, related_name="products")
-    specifications = models.ManyToManyField(Specification, related_name="products")
+    images = models.ManyToManyField(Image, related_name="products", verbose_name="фотографии")
+    tags = models.ManyToManyField(Tag, related_name="products", verbose_name="тэги")
+    specifications = models.ManyToManyField(Specification, related_name="products", verbose_name="характеристики")
     rating = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Рейтинг")
 
     @classmethod
