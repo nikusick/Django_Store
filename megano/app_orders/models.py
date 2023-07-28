@@ -3,7 +3,17 @@ from app_products.models import Product
 from app_users.models import Profile
 
 
+class OrderPriceConstants(models.Model):
+    title = models.CharField(max_length=50, verbose_name="Название константы")
+    value = models.FloatField(default=0, verbose_name="Значение")
+
+    class Meta:
+        verbose_name = 'Константа'
+        verbose_name_plural = 'Константы'
+
+
 class Order(models.Model):
+    EXPRESS = 100
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
                                 related_name="orders", verbose_name="Заказчик")
     createdAt = models.DateTimeField(auto_now_add=True,
@@ -30,7 +40,12 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.products.all())
+        result = float(sum(item.get_cost() for item in self.products.all()))
+        if self.deliveryType == 'express':
+            result += OrderPriceConstants.objects.get(title='EXPRESS_DELIVERY_PRICE').value
+        elif result < OrderPriceConstants.objects.get(title='MIN_PRICE_FOR_FREE_DELIVERY').value:
+            result += OrderPriceConstants.objects.get(title='DELIVERY_PRICE').value
+        return result
 
 
 class OrderProduct(models.Model):
@@ -48,7 +63,6 @@ class OrderProduct(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-
 
 
 class Payment(models.Model):

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +13,7 @@ from app_users.models import Profile
 
 
 class CartDetailView(APIView):
-    """APIView для корзины, реализация методов get, post и delete"""
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_cart_items(self, cart):
         cart_items = []
@@ -61,6 +61,7 @@ class CartDetailView(APIView):
 
 
 class OrdersView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
@@ -86,6 +87,8 @@ class OrdersView(APIView):
 
 
 class OrderDetailView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, id):
         order = Order.objects.get(id=id)
         serializer = OrderSerializer(order)
@@ -105,6 +108,7 @@ class OrderDetailView(APIView):
 
 
 class PaymentView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, id):
         order = Order.objects.get(id=id)
