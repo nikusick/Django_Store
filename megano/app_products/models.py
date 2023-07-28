@@ -74,6 +74,7 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tag, related_name="products", verbose_name="тэги")
     specifications = models.ManyToManyField(Specification, related_name="products", verbose_name="характеристики")
     rating = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Рейтинг")
+    on_banner = models.BooleanField(default=False, verbose_name="На баннере")
 
     @classmethod
     def get_category_items(cls, category_id: int):

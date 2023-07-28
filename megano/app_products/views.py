@@ -115,3 +115,11 @@ class SalesView(APIView):
             "lastPage": 10
         }
         return Response(data, status=status.HTTP_200_OK)
+
+
+class BannerView(APIView):
+    def get(self, request):
+        products = Product.objects.filter(on_banner=True)
+        serializer = ProductShortSerializer(products, many=True)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -44,6 +44,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductShortSerializer(serializers.ModelSerializer):
     reviews = serializers.IntegerField(source='reviews.count')
+    category = serializers.IntegerField(source='category.id')
 
     class Meta:
         model = Product
