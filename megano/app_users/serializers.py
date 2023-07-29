@@ -16,7 +16,7 @@ class AvatarSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(source='user.email')
+    email = serializers.EmailField(source="user.email")
     avatar = AvatarSerializer()
 
     class Meta:
@@ -24,10 +24,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["fullName", "email", "phone", "avatar"]
 
     def update(self, instance, validated_data):
-        instance.fullName = validated_data.get('fullName')
+        instance.fullName = validated_data.get("fullName")
         user = User.objects.get(id=instance.user.id)
-        user.email = validated_data.get('user').get('email')
+        user.email = validated_data.get("user").get("email")
         user.save()
-        instance.phone = validated_data.get('phone')
+        instance.phone = validated_data.get("phone")
         instance.save()
         return instance

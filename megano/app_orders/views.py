@@ -73,17 +73,14 @@ class OrdersView(APIView):
         profile = Profile.objects.get(user=request.user)
         order = Order.objects.create(profile=profile)
         for item in request.data:
-            product = Product.objects.get(id=item['id'])
-            item_data = {
-                'price': item['price'],
-                'count': item['count']
-            }
+            product = Product.objects.get(id=item["id"])
+            item_data = {"price": item["price"], "count": item["count"]}
             serializer = OrderProductSerializer(data=item_data, partial=True)
             if serializer.is_valid():
                 serializer.save(product=product, order=order)
             else:
                 return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
-        return Response({'orderId': order.id})
+        return Response({"orderId": order.id})
 
 
 class OrderDetailView(APIView):
@@ -103,7 +100,7 @@ class OrderDetailView(APIView):
             order.save()
             cart = Cart(request)
             cart.clear()
-            return Response({'orderId': order.id}, status=status.HTTP_200_OK)
+            return Response({"orderId": order.id}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

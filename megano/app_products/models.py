@@ -22,9 +22,14 @@ class Image(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=128)
     image = models.ForeignKey(Image, null=True, on_delete=models.CASCADE)
-    parent_category = models.ForeignKey('self', null=True, blank=True,
-                                        related_name='subcategories',
-                                        on_delete=models.CASCADE, verbose_name='Родительская категория')
+    parent_category = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        related_name="subcategories",
+        on_delete=models.CASCADE,
+        verbose_name="Родительская категория",
+    )
 
     class Meta:
         verbose_name = "Категория"
@@ -32,7 +37,7 @@ class Category(models.Model):
 
     def __str__(self):
         if self.parent_category is not None:
-            return f'{self.parent_category} -> {self.title}'
+            return f"{self.parent_category} -> {self.title}"
         return self.title
 
 
@@ -56,24 +61,38 @@ class Specification(models.Model):
         verbose_name_plural = "Характеристики"
 
     def __str__(self):
-        return f'{self.name} ( {self.value} )'
+        return f"{self.name} ( {self.value} )"
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, verbose_name="Категория",
-                                 on_delete=models.CASCADE, related_name='products')
+    category = models.ForeignKey(
+        Category,
+        verbose_name="Категория",
+        on_delete=models.CASCADE,
+        related_name="products",
+    )
     price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Цена")
     count = models.PositiveIntegerField(verbose_name="Количество")
     date = models.DateTimeField("Дата")
     title = models.CharField(max_length=128, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
-    fullDescription = models.TextField(blank=True, null=True, verbose_name="Полное описание")
-    freeDelivery = models.BooleanField(default=False, verbose_name="Бесплатная доставка")
+    fullDescription = models.TextField(
+        blank=True, null=True, verbose_name="Полное описание"
+    )
+    freeDelivery = models.BooleanField(
+        default=False, verbose_name="Бесплатная доставка"
+    )
     limited = models.BooleanField(default=False, verbose_name="Ограниченный тираж")
-    images = models.ManyToManyField(Image, related_name="products", verbose_name="фотографии")
+    images = models.ManyToManyField(
+        Image, related_name="products", verbose_name="фотографии"
+    )
     tags = models.ManyToManyField(Tag, related_name="products", verbose_name="тэги")
-    specifications = models.ManyToManyField(Specification, related_name="products", verbose_name="характеристики")
-    rating = models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Рейтинг")
+    specifications = models.ManyToManyField(
+        Specification, related_name="products", verbose_name="характеристики"
+    )
+    rating = models.DecimalField(
+        decimal_places=2, max_digits=10, verbose_name="Рейтинг"
+    )
     on_banner = models.BooleanField(default=False, verbose_name="На баннере")
 
     @classmethod
@@ -93,12 +112,18 @@ class Product(models.Model):
 
 class Review(models.Model):
     author = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, null=True, related_name="author", verbose_name='Автор'
+        Profile,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="author",
+        verbose_name="Автор",
     )
     text = models.TextField(verbose_name="Отзыв")
     rate = models.PositiveIntegerField(verbose_name="Оценка")
     date = models.DateTimeField(auto_now_add=True, verbose_name="Дата")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews", verbose_name='Товар')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="reviews", verbose_name="Товар"
+    )
 
     class Meta:
         verbose_name = "Отзыв"
@@ -106,7 +131,9 @@ class Review(models.Model):
 
 
 class SaleItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="sales", verbose_name='Товар')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="sales", verbose_name="Товар"
+    )
     salePrice = models.FloatField(verbose_name="Цена со скидкой")
     dateFrom = models.DateField(verbose_name="Начало акции")
     dateTo = models.DateField(verbose_name="Конец акции")

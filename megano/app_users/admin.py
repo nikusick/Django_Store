@@ -5,12 +5,11 @@ from .models import Profile, Avatar
 
 
 class ProfileAdmin(admin.ModelAdmin):
-
     def photo(self, profile):
         return mark_safe(f'<img src="{profile.avatar.src}" width="100"/>')
 
     photo.allow_tags = True
-    list_display = 'pk', 'fullName', 'user', 'photo'
+    list_display = "pk", "fullName", "user", "photo"
 
 
 class AvatarAdmin(admin.ModelAdmin):
@@ -19,7 +18,7 @@ class AvatarAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{img.src}" width="100"/>')
 
     image.allow_tags = True
-    list_display = 'pk', 'image', 'alt'
+    list_display = "pk", "image", "alt"
 
 
 admin.site.register(Profile, ProfileAdmin)

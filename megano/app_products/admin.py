@@ -3,38 +3,39 @@ from .models import Image, Category, Tag, Specification, Product, Review, SaleIt
 
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = 'pk', 'src', 'alt'
+    list_display = "pk", "src", "alt"
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = 'pk', 'title', 'image', 'parent_category'
+    list_display = "pk", "title", "image", "parent_category"
 
 
 class TagAdmin(admin.ModelAdmin):
     def get_products(self, tag):
         return [product.title for product in tag.products.all()]
 
-    get_products.short_description = 'Товары с тэгом'
-    list_display = 'name', 'get_products'
+    get_products.short_description = "Товары с тэгом"
+    list_display = "name", "get_products"
 
 
 class SpecificationAdmin(admin.ModelAdmin):
-    list_display = 'name', 'value'
+    list_display = "name", "value"
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = 'title', 'price', 'category', 'rating'
+    list_display = "title", "price", "category", "rating"
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = 'author', 'text', 'rate', 'date'
+    list_display = "author", "text", "rate", "date"
 
 
 class SaleItemAdmin(admin.ModelAdmin):
     def old_price(self, item):
         return item.product.price
-    old_price.short_description = 'Старая цена'
-    list_display = 'product', 'old_price', 'salePrice'
+
+    old_price.short_description = "Старая цена"
+    list_display = "product", "old_price", "salePrice"
 
 
 admin.site.register(Image, ImageAdmin)

@@ -3,7 +3,7 @@ from .models import Order, OrderProduct, OrderPriceConstants
 
 
 class OrderPriceConstantsAdmin(admin.ModelAdmin):
-    list_display = 'pk', 'title', 'value'
+    list_display = "pk", "title", "value"
 
 
 class OrderProductInline(admin.StackedInline):
@@ -12,11 +12,19 @@ class OrderProductInline(admin.StackedInline):
 
 class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderProductInline]
-    list_display = 'pk', 'profile', 'createdAt', 'totalCost', 'status', 'address', 'EXPRESS'
+    list_display = (
+        "pk",
+        "profile",
+        "createdAt",
+        "totalCost",
+        "status",
+        "address",
+        "EXPRESS",
+    )
 
 
 class OrderProductAdmin(admin.ModelAdmin):
-    list_display = 'pk', 'product', 'price', 'count', 'order'
+    list_display = "pk", "product", "price", "count", "order"
 
 
 admin.site.register(Order, OrderAdmin)

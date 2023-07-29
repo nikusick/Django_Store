@@ -27,7 +27,6 @@ class SignInView(APIView):
 
 
 class SignUpView(APIView):
-
     def post(self, request):
         serialized_data = list(request.data.keys())[0]
         user_data = json.loads(serialized_data)
@@ -70,6 +69,7 @@ class ProfileView(APIView):
 
 class UpdatePasswordView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request):
         user = request.user
         old_password = request.data.get("currentPassword")
