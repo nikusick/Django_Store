@@ -13,6 +13,10 @@ from app_users.models import Profile
 
 
 class CartDetailView(APIView):
+    """
+    Представление о товарах в корзине
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def get_cart_items(self, cart):
@@ -61,6 +65,10 @@ class CartDetailView(APIView):
 
 
 class OrdersView(APIView):
+    """
+    Представление о заказах пользователя
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -84,6 +92,10 @@ class OrdersView(APIView):
 
 
 class OrderDetailView(APIView):
+    """
+    Представление о заказе
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, id):
@@ -105,6 +117,10 @@ class OrderDetailView(APIView):
 
 
 class PaymentView(APIView):
+    """
+    Представление об оплате заказа
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, id):

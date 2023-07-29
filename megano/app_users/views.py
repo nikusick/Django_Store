@@ -11,6 +11,10 @@ from .serializers import ProfileSerializer
 
 
 class SignInView(APIView):
+    """
+    Представление авторизациии пользователя
+    """
+
     def post(self, request):
         serialized_data = list(request.POST.keys())[0]
         user_data = json.loads(serialized_data)
@@ -27,6 +31,10 @@ class SignInView(APIView):
 
 
 class SignUpView(APIView):
+    """
+    Представление регистрации пользователя
+    """
+
     def post(self, request):
         serialized_data = list(request.data.keys())[0]
         user_data = json.loads(serialized_data)
@@ -46,11 +54,18 @@ class SignUpView(APIView):
 
 
 def signOut(request):
+    """
+    Представление выхода пользователя из аккаунта
+    """
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
 
 class ProfileView(APIView):
+    """
+    Представление профиля пользователя
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -68,6 +83,10 @@ class ProfileView(APIView):
 
 
 class UpdatePasswordView(APIView):
+    """
+    Представление изменения пароля пользователя
+    """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
@@ -82,6 +101,9 @@ class UpdatePasswordView(APIView):
 
 
 def updateAvatar(request):
+    """
+    Представление изменения аватарки пользователя
+    """
     if request.method == "POST":
         profile = Profile.objects.get(user=request.user)
         avatar = Avatar.objects.get_or_create(src=request.FILES["avatar"])[0]

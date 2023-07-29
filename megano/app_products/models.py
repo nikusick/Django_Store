@@ -5,6 +5,10 @@ from app_users.models import Profile
 
 
 class Image(models.Model):
+    """
+    Модель картинки
+    """
+
     src = models.ImageField(
         upload_to="static/products/",
         verbose_name="Ссылка",
@@ -20,6 +24,10 @@ class Image(models.Model):
 
 
 class Category(models.Model):
+    """
+    Модель категории
+    """
+
     title = models.CharField(max_length=128)
     image = models.ForeignKey(Image, null=True, on_delete=models.CASCADE)
     parent_category = models.ForeignKey(
@@ -42,6 +50,10 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
+    """
+    Модель тэга
+    """
+
     name = models.CharField(max_length=128, unique=True, verbose_name="Название тэга")
 
     class Meta:
@@ -53,6 +65,10 @@ class Tag(models.Model):
 
 
 class Specification(models.Model):
+    """
+    Модель характеристики
+    """
+
     name = models.CharField(max_length=128, verbose_name="Название")
     value = models.CharField(max_length=128, verbose_name="Значение")
 
@@ -65,6 +81,10 @@ class Specification(models.Model):
 
 
 class Product(models.Model):
+    """
+    Модель продукта
+    """
+
     category = models.ForeignKey(
         Category,
         verbose_name="Категория",
@@ -111,6 +131,10 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    """
+    Модель отзыва
+    """
+
     author = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
@@ -131,6 +155,10 @@ class Review(models.Model):
 
 
 class SaleItem(models.Model):
+    """
+    Модель акционного товара
+    """
+
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="sales", verbose_name="Товар"
     )

@@ -4,7 +4,13 @@ from app_users.models import Profile
 
 
 class OrderPriceConstants(models.Model):
-    title = models.CharField(max_length=50, verbose_name="Название константы")
+    """
+    Модель для работы с константами проекта
+    """
+
+    title = models.CharField(
+        max_length=50, unique=True, verbose_name="Название константы"
+    )
     value = models.FloatField(default=0, verbose_name="Значение")
 
     class Meta:
@@ -13,7 +19,10 @@ class OrderPriceConstants(models.Model):
 
 
 class Order(models.Model):
-    EXPRESS = 100
+    """
+    Модель заказа
+    """
+
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
@@ -61,6 +70,10 @@ class Order(models.Model):
 
 
 class OrderProduct(models.Model):
+    """
+    Модель товара заказа
+    """
+
     product = models.ForeignKey(
         Product,
         related_name="order_items",
@@ -86,6 +99,10 @@ class OrderProduct(models.Model):
 
 
 class Payment(models.Model):
+    """
+    Модель оплаты заказа
+    """
+
     number = models.CharField(max_length=16, verbose_name="Номер карты")
     name = models.CharField(max_length=128, verbose_name="Имя")
     month = models.CharField(max_length=2, verbose_name="Месяц")
