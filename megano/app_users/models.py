@@ -4,9 +4,7 @@ from django.utils.safestring import mark_safe
 
 
 class Avatar(models.Model):
-    """
-    Модель аватара пользователя
-    """
+    """Модель аватара пользователя"""
 
     src = models.ImageField(
         upload_to="static/avatars/",
@@ -20,9 +18,7 @@ class Avatar(models.Model):
 
 
 class Profile(models.Model):
-    """
-    Модель профиля пользователя
-    """
+    """Модель профиля пользователя"""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     fullName = models.CharField(max_length=128, verbose_name="Полное имя")

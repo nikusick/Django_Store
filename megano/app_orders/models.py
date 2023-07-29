@@ -4,9 +4,7 @@ from app_users.models import Profile
 
 
 class OrderPriceConstants(models.Model):
-    """
-    Модель для работы с константами проекта
-    """
+    """Модель для работы с константами проекта"""
 
     title = models.CharField(
         max_length=50, unique=True, verbose_name="Название константы"
@@ -19,9 +17,7 @@ class OrderPriceConstants(models.Model):
 
 
 class Order(models.Model):
-    """
-    Модель заказа
-    """
+    """Модель заказа"""
 
     profile = models.ForeignKey(
         Profile,
@@ -70,9 +66,7 @@ class Order(models.Model):
 
 
 class OrderProduct(models.Model):
-    """
-    Модель товара заказа
-    """
+    """Модель товара заказа"""
 
     product = models.ForeignKey(
         Product,
@@ -99,9 +93,7 @@ class OrderProduct(models.Model):
 
 
 class Payment(models.Model):
-    """
-    Модель оплаты заказа
-    """
+    """Модель оплаты заказа"""
 
     number = models.CharField(max_length=16, verbose_name="Номер карты")
     name = models.CharField(max_length=128, verbose_name="Имя")

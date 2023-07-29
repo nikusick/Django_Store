@@ -92,9 +92,7 @@ class OrdersView(APIView):
 
 
 class OrderDetailView(APIView):
-    """
-    Представление о заказе
-    """
+    """Представление о заказе"""
 
     permission_classes = [permissions.IsAuthenticated]
 
@@ -117,9 +115,7 @@ class OrderDetailView(APIView):
 
 
 class PaymentView(APIView):
-    """
-    Представление об оплате заказа
-    """
+    """Представление об оплате заказа"""
 
     permission_classes = [permissions.IsAuthenticated]
 

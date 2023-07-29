@@ -22,9 +22,7 @@ from app_users.models import Profile
 
 
 class TagsAPIView(APIView):
-    """
-    Представление тэгов
-    """
+    """Представление тэгов"""
 
     def get(self, request):
         tags = Tag.objects.all()
@@ -33,9 +31,7 @@ class TagsAPIView(APIView):
 
 
 class ProductDetailAPIView(APIView):
-    """
-    Детальное представление товара
-    """
+    """Детальное представление товара"""
 
     def get(self, request, *args, **kwargs):
         id = kwargs.get("id")
@@ -45,9 +41,7 @@ class ProductDetailAPIView(APIView):
 
 
 class ProductReview(APIView):
-    """
-    Представление для добавления отзыва на товар
-    """
+    """Представление для добавления отзыва на товар"""
 
     def post(self, request, *args, **kwargs):
         id = kwargs.get("id")
@@ -61,9 +55,7 @@ class ProductReview(APIView):
 
 
 class CategoryView(APIView):
-    """
-    Представление категорий
-    """
+    """Представление категорий"""
 
     def get(self, request):
         categories = Category.objects.filter(parent_category__isnull=True)
@@ -72,9 +64,7 @@ class CategoryView(APIView):
 
 
 class CatalogView(APIView):
-    """
-    Представление каталога
-    """
+    """Представление каталога"""
 
     def get(self, request):
         r = request.GET
@@ -109,9 +99,7 @@ class CatalogView(APIView):
 
 
 class LimitedProductsView(APIView):
-    """
-    Представление товаров ограниченного тиража
-    """
+    """Представление товаров ограниченного тиража"""
 
     def get(self, request):
         products = Product.objects.filter(limited=True)[:16]
@@ -120,9 +108,7 @@ class LimitedProductsView(APIView):
 
 
 class PopularProductsView(APIView):
-    """
-    Представление популярных товаров
-    """
+    """Представление популярных товаров"""
 
     def get(self, request):
         products = Product.objects.order_by("rating")[:8]
@@ -131,9 +117,7 @@ class PopularProductsView(APIView):
 
 
 class SalesView(APIView):
-    """
-    Представление акционных товаров
-    """
+    """Представление акционных товаров"""
 
     def get(self, request):
         saleItems = SaleItem.objects.filter(
@@ -150,9 +134,7 @@ class SalesView(APIView):
 
 
 class BannerView(APIView):
-    """
-    Представление рекламы
-    """
+    """Представление рекламы"""
 
     def get(self, request):
         products = Product.objects.filter(on_banner=True)
