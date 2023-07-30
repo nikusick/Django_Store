@@ -19,7 +19,6 @@ class OrderAdmin(admin.ModelAdmin):
         "totalCost",
         "status",
         "address",
-        "EXPRESS",
     )
 
 
