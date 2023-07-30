@@ -10,6 +10,7 @@
 
 ```console
 $ git clone https://github.com/nikusick/Django_Store.git
+$ pip install -r requirements.txt
 $ python manage.py migrate
 $ python manage.py runserver
 ```
